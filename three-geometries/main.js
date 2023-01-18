@@ -12,10 +12,30 @@ const canvas = document.querySelector('canvas.webgl')
 const scene = new THREE.Scene()
 
 // Object
-const geometry = new THREE.BoxGeometry(1, 1, 1,100,100,100)
-const material = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true})
-const mesh = new THREE.Mesh(geometry, material)
-scene.add(mesh)
+// const geometry = new THREE.BoxGeometry(1, 1, 1,100,100,100)
+// const material = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true})
+// const mesh = new THREE.Mesh(geometry, material)
+// scene.add(mesh)
+
+// FloatArray, BUfferAttribute
+const vertices = new Float32Array([
+    -1.0, -1.0,  1.0,
+	 1.0, -1.0,  1.0,
+	 1.0,  1.0,  1.0,
+
+	 1.0,  1.0,  1.0,
+	-1.0,  1.0,  1.0,
+	-1.0, -1.0,  1.0
+])
+
+const positionAttribute = new THREE.BufferAttribute(vertices, 3)
+
+const geometry = new THREE.BoxGeometry()
+geometry.setAttribute('position', positionAttribute)
+
+const material = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true })
+
+scene.add(new THREE.Mesh(geometry, material))
 
 // Sizes
 const sizes = {
@@ -23,8 +43,7 @@ const sizes = {
     height: window.innerHeight
 }
 
-window.addEventListener('resize', () =>
-{
+window.addEventListener('resize', () => {
     // Update sizes
     sizes.width = window.innerWidth
     sizes.height = window.innerHeight
@@ -40,7 +59,7 @@ window.addEventListener('resize', () =>
 
 // Camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-camera.position.z = 0.0001
+camera.position.z = 3
 scene.add(camera)
 
 // Controls
@@ -57,8 +76,7 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 // Animate
 const clock = new THREE.Clock()
 
-const tick = () =>
-{
+const tick = () => {
     const elapsedTime = clock.getElapsedTime()
 
     // Update controls
