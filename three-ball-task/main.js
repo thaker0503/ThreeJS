@@ -10,8 +10,10 @@ const SIZES = {
 }
 const aspectRatio = SIZES.width / SIZES.height
 
+const textureLoader = new THREE.TextureLoader()
 
 const scene = new THREE.Scene()
+scene.background = textureLoader.load('./wallpaper.jpg')
 
 const camera = new THREE.PerspectiveCamera(75, aspectRatio, 0.01, 10)
 camera.position.z = 3
@@ -22,7 +24,7 @@ scene.add(camera)
 const sphere = new THREE.Mesh(
   new THREE.SphereGeometry(1, 20, 20),
   new THREE.MeshBasicMaterial({
-    // color: 0xff0000,
+    // color: 0xff0000, 
     wireframe: true
   }
   ))
@@ -50,11 +52,21 @@ const animation = () => {
 requestAnimationFrame(animation)
 
 const sphereAnimation = () => {
-  const endPoint = new THREE.Vector3(SIZES.width/2,0,0)
-  // if(sphere.position.x == )
+  console.log("Sphere Animation")
+  const fovInRadians = (camera.fov * Math.PI) / 180;
+    const height = Math.abs(
+      camera.position.z * Math.tan(fovInRadians / 2) * 2,
+    );
+    const width = height * SIZES.width/SIZES.height;
+    // console.log(SIZES.width/SIZES.height)
+    sphere.position.x = -(width/2 - 1)
+    sphere.position.y = height/2 - 1
+    // camera.lookAt(sphere.position)
 }
 
-
+canvas.addEventListener('scroll', () => {
+  console.log("Scrolling")
+})
 
 
 window.addEventListener('resize', () => {
