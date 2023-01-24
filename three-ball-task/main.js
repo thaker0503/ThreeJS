@@ -29,7 +29,7 @@ const sphere = new THREE.Mesh(
   }
   ))
 // sphere.position.set(-(SIZES.width/100),SIZES.height/100,0) 
-camera.lookAt(sphere.position)
+// camera.lookAt(sphere.position)
 scene.add(sphere)
 
 const renderer = new THREE.WebGLRenderer({
@@ -45,7 +45,9 @@ const clock = new THREE.Clock()
 
 const animation = () => {
   const elapsedTime = clock.getElapsedTime()
-  sphereAnimation()
+  sphere.rotation.x += 0.01;
+  sphere.rotation.y += 0.01;
+
   renderer.render(scene, camera)
   requestAnimationFrame(animation)
 }
