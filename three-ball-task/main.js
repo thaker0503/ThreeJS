@@ -45,7 +45,8 @@ const animation = () => {
   const elapsedTime = clock.getElapsedTime();
   // sphere.rotation.x += 0.01;
   // sphere.rotation.y += 0.01;
-  
+  sphere.position.x = -Math.sin(elapsedTime);
+  sphere.position.y -= 0.01;
 
   renderer.render(scene, camera);
   requestAnimationFrame(animation);
