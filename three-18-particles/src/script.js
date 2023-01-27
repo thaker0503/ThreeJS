@@ -4,7 +4,7 @@ import * as dat from "lil-gui";
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 
-const loader = new GLTFLoader(); 
+const loader = new GLTFLoader();
 
 /**
  * Base
@@ -26,7 +26,7 @@ const particleTexture = textureLoader.load("/textures/particles/snow.png");
 
 // Particles
 // const particlesGeometry = new THREE.SphereGeometry(1, 32, 32)
-const particlesGeometry = new THREE.BufferGeometry();
+const particlesGeometry = new THREE.BufferGeometry()
 const count = 1000;
 
 const positions = new Float32Array(count * 3);
@@ -64,6 +64,14 @@ const particlesMaterial = new THREE.PointsMaterial({
 const particles = new THREE.Points(particlesGeometry, particlesMaterial);
 scene.add(particles);
 particles.position.y = particles.position.y / 2 + 1
+
+
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.5)
+scene.add(ambientLight)
+
+const pointLight =new THREE.PointLight(0xffffff,0.5)
+pointLight.position.set(2,4,2)
+scene.add(pointLight)
 
 /**
  * Test cube
@@ -106,8 +114,8 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   100
 );
-camera.position.z = 10;
-// camera.position.y = 1;
+camera.position.z = 13;
+camera.position.y = 5;
 scene.add(camera);
 
 // Controls
@@ -128,17 +136,19 @@ renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1;
 // renderer.outputEncoding = THREE.sRGBEncoding;
 
-loader.load( 
-  './leletoja.glb', 
-  function ( gltf ) { 
+loader.load(
+  './yo_boy_2.glb',
+  function (gltf) {
     // gltf.scene.scale.set(2,2,2)
     console.log(gltf.scene)
-    gltf.scene.children[0].material = new THREE.MeshBasicMaterial({color: 0xefef0f})
-    scene.add( gltf.scene ); 
-    renderer.render( scene, camera );
+    // gltf.scene.children[0].material = new THREE.MeshBasicMaterial({ color: 0xefef0f })
+    gltf.scene.rotation.y = - Math.PI * 1
+    // gltf.scene.children[0].rotation.x = Math.PI * 0.25
+    scene.add(gltf.scene);
+    renderer.render(scene, camera);
   });
 
-  
+
 
 /**
  * Animate
@@ -155,11 +165,11 @@ const tick = () => {
 
   // for (let i = 0; i < count; i++) {
   //   const i3 = i * 3
-    
+
   //   const x = particlesGeometry.attributes.position.array[i3] 
   //   particlesGeometry.attributes.position.array[i3+1] =  Math.sin(elapsedTime + x)
 
-    
+
   // }
   // particlesGeometry.attributes.position.needsUpdate = true
 
