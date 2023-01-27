@@ -27,6 +27,7 @@ parameters.randomness = 0.2
 parameters.randomnessPower = 3
 parameters.insideColor = "#ff6030"
 parameters.outsideColor = "#1b3984"
+parameters.animationSpeed = 0.1
 
 let geometry  = null
 let material = null
@@ -104,6 +105,7 @@ gui.add(parameters, 'randomness').min(0).max(2).step(0.001).onFinishChange(gener
 gui.add(parameters, 'randomnessPower').min(1).max(10).step(0.001).onFinishChange(generateGalaxy)
 gui.addColor(parameters, 'insideColor').onFinishChange(generateGalaxy)
 gui.addColor(parameters, 'outsideColor').onFinishChange(generateGalaxy)
+gui.add(parameters, 'animationSpeed').min(0.1).max(10).step(0.01).onFinishChange(generateGalaxy)
 
 /**
  * Sizes
@@ -160,6 +162,11 @@ const tick = () =>
 {
     const elapsedTime = clock.getElapsedTime()
 
+    // Update objects
+    if(points !== null){
+        points.rotation.y = elapsedTime * parameters.animationSpeed
+    }
+    
     // Update controls
     controls.update()
 
