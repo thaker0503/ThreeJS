@@ -16,20 +16,25 @@ const scene = new THREE.Scene();
 // scene.background = textureLoader.load("./wallpaper.jpg");
 
 const camera = new THREE.PerspectiveCamera(75, aspectRatio, 0.01, 10);
-camera.position.z = 8;
+camera.position.z = 7;
+camera.position.y = -4;
 // var horizontalFov = 90;
 // camera.fov = (Math.atan(Math.tan(((horizontalFov / 2) * Math.PI) / 180) / camera.aspect) * 2 * 180) / Math.PI;
 scene.add(camera);
 
+
+
 const sphere = new THREE.Mesh(
   new THREE.SphereGeometry(1, 20, 20),
   new THREE.MeshBasicMaterial({
-    // color: 0xff0000,
+    color: 0xffee00,
     wireframe: true,
   })
 );
 // sphere.position.set(-(SIZES.width/100),SIZES.height/100,0)
 // camera.lookAt(sphere.position)
+// sphere.position.y = 4;
+// sphere.position.x = -(SIZES.width / 100 * 0.25);
 scene.add(sphere);
 
 const renderer = new THREE.WebGLRenderer({
@@ -45,8 +50,8 @@ const animation = () => {
   const elapsedTime = clock.getElapsedTime();
   // sphere.rotation.x += 0.01;
   // sphere.rotation.y += 0.01;
-  sphere.position.x = -Math.sin(elapsedTime);
-  sphere.position.y -= 0.01;
+  // sphere.position.x = -Math.sin(elapsedTime);
+  // sphere.position.y -= 0.01;
 
   renderer.render(scene, camera);
   requestAnimationFrame(animation);
@@ -65,8 +70,16 @@ requestAnimationFrame(animation);
 // };
 
 window.addEventListener("scroll", () => {
-  console.log("Scrolling");
-  // const scrollY = window.scrollY;
+  // console.log("Scrolling");
+
+  const scrollY = window.scrollY;
+
+  sphere.position.x = Math.sin(scrollY * 0.01) * 5;
+  sphere.position.y = - scrollY * 0.01;
+  sphere.rotation.z = scrollY * 0.1;
+
+
+  // camera.lookAt(sphere.position);
 
   // sphere.position.x = -Math.sin(scrollY) * 2;
   // sphere.position.y -= scrollY * 0.001;

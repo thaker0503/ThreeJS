@@ -3,15 +3,20 @@
   padding: 0;
 }
 
-html,
+/* html,
 body {
   overflow: visible;
-}
+} */
 
 .webgl {
   position: fixed;
   top: 0;
   left: 0;
   outline: none;
+  height: 100vh;
+}
+
+section {
+  height: 100vh;
   width: 100%;
 }
