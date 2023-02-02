@@ -56,7 +56,7 @@ spotLight.target.position.x = -0.75
 // gui.add(rectLight,"width").min(1).max(10).step(1).name("Rect Light Width")
 // gui.add(rectLight,"height").min(1).max(10).step(1).name("Rect Light Height")
 
-document.addEventListener("dblclick", () => {
+document.addEventListener("", () => {
     rectLight.intensity = 0
     pointLight.intensity = 0
     hemisphereLight.intensity = 0

@@ -1,6 +1,7 @@
 import "./style.css";
 import * as THREE from "three";
-// import gsap from "gsap";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/all";
 // import dat from "dat.gui";
 
 const canvas = document.querySelector("canvas.webgl");
@@ -69,14 +70,35 @@ requestAnimationFrame(animation);
 //   // camera.lookAt(sphere.position)
 // };
 
+gsap.registerPlugin(ScrollTrigger, gsap.plugins.DrawSVGPlugin, gsap.plugins.MotionPathPlugin)
+const tl = gsap.timeline()
+
+tl.from(sphere, {
+  rotate: 360
+})
+
+ScrollTrigger.create({
+  animation: tl,
+  trigger: canvas,
+  start: "top 1%",
+  end: '+=600',
+  markers: true,
+  scrub: 1,
+  pin: true,
+  anticipatePin: 1,
+  immediateRender: true
+})
+
 window.addEventListener("scroll", () => {
   // console.log("Scrolling");
 
-  const scrollY = window.scrollY;
+  
 
-  sphere.position.x = Math.sin(scrollY * 0.01) * 5;
-  sphere.position.y = - scrollY * 0.01;
-  sphere.rotation.z = scrollY * 0.1;
+  // const scrollY = window.scrollY;
+
+  // sphere.position.x = Math.sin(scrollY * 0.01) * 10;
+  // sphere.position.y = - scrollY * 0.01;
+  // sphere.rotation.z = scrollY * 0.1;
 
 
   // camera.lookAt(sphere.position);
