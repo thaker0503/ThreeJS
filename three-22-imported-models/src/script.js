@@ -25,14 +25,14 @@ gltfLoader.load(
     (gltf) => {
 
         mixer = new THREE.AnimationMixer(gltf.scene)
-        const action = mixer.clipAction(gltf.animations[1])
+        const action = mixer.clipAction(gltf.animations[2])
 
-        action.play()
+        // action.play()
 
         gltf.scene.scale.set(0.025,0.025,0.025)
         scene.add(gltf.scene)
         // gltf.scenes[0].castShadow = true 
-        // console.log(gltf.scenes[0]);
+        // console.log(gltf);
     }
 )
 
