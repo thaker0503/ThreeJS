@@ -44,13 +44,22 @@ scene.add(object1, object2, object3)
 
 let mouse = {}
 
+const change = () => {
+}
+
 window.addEventListener('mousemove', (e) => {
     mouse.x = e.clientX / sizes.width * 2 - 1
     mouse.y = - (e.clientY / sizes.height * 2 - 1) 
 
 })
 
-const raycaster = new THREE.Raycaster()
+// Mouse Click Event
+window.addEventListener('click', () => {
+    if(currentIntersect){
+        console.log(currentIntersect.object);
+    }
+})
+
 
 
 
@@ -101,14 +110,21 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 // const stats = new Stats()
 
 
+
+
+
 /**
  * Animate
  */
 const clock = new THREE.Clock()
 
+let currentIntersect = null 
+
 const tick = () =>
 {
     const elapsedTime = clock.getElapsedTime()
+
+    const raycaster = new THREE.Raycaster()
 
     // const rayOrigin = new THREE.Vector3(-3,0,0)
     // const rayDirection = new THREE.Vector3(1,0,0)
@@ -116,9 +132,9 @@ const tick = () =>
 
     // raycaster.set(rayOrigin,rayDirection)
 
-    object1.position.y = Math.sin(elapsedTime * 0.3)
-    object2.position.y = Math.sin(elapsedTime * 0.7)
-    object3.position.y = Math.sin(elapsedTime * 1.2)
+    object1.position.y = Math.sin(elapsedTime * 0.3) * 1.5
+    object2.position.y = Math.sin(elapsedTime * 0.8) * 1.5
+    object3.position.y = Math.sin(elapsedTime * 1.4) * 1.5
 
     raycaster.setFromCamera( mouse, camera );
 
@@ -129,14 +145,24 @@ const tick = () =>
     for (const obj of objects) {
         obj.material.color.set(0xff0000)
     }
-
-    if(intersects.length){
-        intersects[0].object.material.color.set(0x0000ff)
+    
+    for (const intersect of intersects) {
+        intersect.object.material.color.set(0x0000ff)
     }
-    // for (const obj of intersects) {
-    // }
     
-    
+    if(intersects.length){
+        if(!currentIntersect){
+            console.log("mouse enter");
+        }
+        currentIntersect = intersects[0]
+    } else {
+        // console.log('Nothing being hovered');
+        if(currentIntersect){
+            console.log("mouse leave");
+        }
+        currentIntersect = null
+    }
+
 
     // Update controls
     controls.update()
