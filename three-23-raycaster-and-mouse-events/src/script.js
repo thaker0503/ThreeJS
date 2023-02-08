@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import * as dat from 'lil-gui'
-import Stats from 'three/addons/libs/stats.module.js';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 
 /**
  * Base
@@ -44,9 +44,6 @@ scene.add(object1, object2, object3)
 
 let mouse = {}
 
-const change = () => {
-}
-
 window.addEventListener('mousemove', (e) => {
     mouse.x = e.clientX / sizes.width * 2 - 1
     mouse.y = - (e.clientY / sizes.height * 2 - 1) 
@@ -56,7 +53,20 @@ window.addEventListener('mousemove', (e) => {
 // Mouse Click Event
 window.addEventListener('click', () => {
     if(currentIntersect){
-        console.log(currentIntersect.object);
+        switch (currentIntersect.object) {
+            case object1:
+                console.log("Object 1");
+                break;
+            case object2:
+                console.log("Object 2");
+                break;
+            case object3:
+                console.log("Object 3");
+                break;
+        
+            default:
+                break;
+        }
     }
 })
 
@@ -109,8 +119,26 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
 // const stats = new Stats()
 
+// Model Import
+let model = null
+const gltfLoader = new GLTFLoader()
+gltfLoader.load(
+    './models/Duck/glTF-Binary/Duck.glb',
+    (gltf) => {
+        model = gltf.scene
+        model.position.y = -1.2
 
+        scene.add(model)
+    }
+)
 
+// AmbientLight
+const ambientLight = new THREE.AmbientLight(0xffffff,0.3)
+scene.add(ambientLight)
+
+const directionalLight = new THREE.DirectionalLight(0xffffff,0.7)
+directionalLight.position.set(1,2,3)
+scene.add(directionalLight)
 
 
 /**
@@ -163,6 +191,14 @@ const tick = () =>
         currentIntersect = null
     }
 
+    if(model){
+        const modelIntersects = raycaster.intersectObject(model)
+        if(modelIntersects.length){
+            model.scale.set(1.2,1.2,1.2)
+        }else{
+            model.scale.set(1,1,1)
+        }
+    }
 
     // Update controls
     controls.update()
